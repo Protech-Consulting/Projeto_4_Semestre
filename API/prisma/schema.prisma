@@ -15,6 +15,27 @@ datasource db {
 
 model Product {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
+  nome    String
+  foto    String 
+  unidade_de_medida String
   marca   String
+  tratamento String
+  valor Float
+}
+model User {
+  id String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome String 
+  cpf String?
+  email String
+  celular String
+  uf  String
+  rua String
+  cep String
+  usuario String
+  senha String
+  nivel_acesso Int
+}
+//Entender Relacionamento nessa tabela
+model Stock {
+  id String   @id @default(auto()) @map("_id") @db.ObjectId
 }

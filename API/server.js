@@ -9,7 +9,7 @@ app.use(express.json())
 app.post('/produtos',async (req,res)=>{
     await prisma.product.create({
         data:{
-            name: req.body.name,
+            nome: req.body.nome,
             marca: req.body.marca
         }
     })
