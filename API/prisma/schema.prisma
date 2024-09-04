@@ -21,6 +21,8 @@ model Product {
   marca   String
   tratamento String
   valor Float
+  Stock Stock[]
+  Sale Sale[]
 }
 model User {
   id String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -34,8 +36,37 @@ model User {
   usuario String
   senha String
   nivel_acesso Int
+  Order Order[]
 }
-//Entender Relacionamento nessa tabela
 model Stock {
   id String   @id @default(auto()) @map("_id") @db.ObjectId
+  produto   Product   @relation(fields: [produto_Id], references: [id])
+  produto_Id String @db.ObjectId 
+  quantidade Int
 }
+model Payment{
+  id String   @id @default(auto()) @map("_id") @db.ObjectId
+  tipo String
+  status Int
+  Order Order[]
+}
+model Order{
+  id String   @id @default(auto()) @map("_id") @db.ObjectId
+  usuario  User   @relation(fields: [usuario_Id], references: [id])
+  usuario_Id String @db.ObjectId
+  pagamento  Payment   @relation(fields: [pagamento_Id], references: [id])
+  pagamento_Id String @db.ObjectId 
+  status Int
+  valor_total Float
+  Sale Sale[]
+}
+model Sale{
+  id String   @id @default(auto()) @map("_id") @db.ObjectId
+  produto  Product   @relation(fields: [produto_Id], references: [id])
+  produto_Id String @db.ObjectId
+  pedido  Order   @relation(fields: [pedido_Id], references: [id])
+  pedido_Id String @db.ObjectId
+  quantidade Int
+  subtotal Float
+}
+

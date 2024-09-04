@@ -25,7 +25,7 @@ app.put('/produtos/:id',async (req,res)=>{
             id: req.params.id
         },
         data:{
-            name: req.body.name,
+            nome: req.body.nome,
             marca: req.body.marca
         }
     })
