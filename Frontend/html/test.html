@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload de Imagem</title>
+    <style>
+        #uploadForm {
+            margin: 50px;
+        }
+        #inputImagem {
+            margin-bottom: 10px;
+        }
+        #status {
+            margin-top: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="uploadForm">
+        <h2>Upload de Imagem</h2>
+        <input type="file" id="inputImagem" />
+        <button id="uploadButton">Enviar Imagem</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        const inputImagem = document.getElementById("inputImagem");
+        const uploadButton = document.getElementById("uploadButton");
+        const statusDiv = document.getElementById("status");
+
+        uploadButton.addEventListener("click", async function() {
+            if (!inputImagem.files[0]) {
+                statusDiv.textContent = "Por favor, selecione um arquivo.";
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", inputImagem.files[0]);
+
+            try {
+                const response = await fetch("http://localhost:3000/picture", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status}`);
+                }
+
+                const json = await response.json();
+                statusDiv.textContent = `Imagem enviada com sucesso! ID: ${json.id}`;
+            } catch (error) {
+                statusDiv.textContent = `Erro ao enviar a imagem: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

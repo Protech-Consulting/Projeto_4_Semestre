@@ -12,15 +12,20 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
-
+model ProductPicture{
+   id      String   @id @default(auto()) @map("_id") @db.ObjectId
+   file String
+   Product Product[]
+}
 model Product {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
   nome    String
-  foto    String 
   unidade_de_medida String
   marca   String
   tratamento String
   valor Float
+  imagem   ProductPicture   @relation(fields: [imagem_Id], references: [id],onDelete: Cascade)
+  imagem_Id String @db.ObjectId 
   Stock Stock[]
   Sale Sale[]
 }
