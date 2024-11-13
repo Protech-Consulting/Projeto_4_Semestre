@@ -1,132 +1,180 @@
-const divProducts = document.querySelector("#div-products")
-const buttonModalAddProduct = document.querySelector("#button-modal-add-product")
-const modalAddProduct = document.querySelector("#modal-add-product")
-const formAddProduct = document.querySelector("#form-add-product")
-const inputImagem = document.querySelector("#imagemFile")
-console.log(modalAddProduct)
+const divProducts = document.querySelector("#div-products");
+const buttonModalAddProduct = document.querySelector("#button-modal-add-product");
+const modalAddProduct = document.querySelector("#modal-add-product");
+const formAddProduct = document.querySelector("#form-add-product");
+const inputImagem = document.querySelector("#imagemFile");
+const content = document.querySelector('.principal');
+const buttonCloseModal = document.querySelector('#close-modal');
 
-// inputImagem.addEventListener("change", async function(event) {
-//   event.preventDefault();
-//   const url = "http://localhost:3000/picture";
-//   const formData = new FormData();
+// Fecha o modal quando o botão de fechar for clicado
+buttonCloseModal.addEventListener("click", function () {
+  modalAddProduct.classList.remove('show');
+  content.classList.remove('show');
+  modalAddProduct.classList.add('hide');
+  console.log("Modal fechado");
+});
 
-//   // Adiciona o arquivo ao objeto FormData
-//   formData.append("file", inputImagem.files[0]);
-
-//   console.log(inputImagem.files[0]); // Verifique se o arquivo foi selecionado corretamente
-
-//   try {
-//     const response = await fetch(url, {
-//       method: "POST", // Use POST para enviar dados ao servidor
-//       body: formData, // Envia o FormData com o arquivo
-//     });
-
-//     if (!response.ok) {
-//       throw new Error(`Response status: ${response.status}`);
-//     }
-
-//     const json = await response.json();
-//     console.log(json);
-//   } catch (error) {
-//     console.error(error.message);
-//   }
-// });
-
+// Abre o modal quando o botão de adicionar produto for clicado
 buttonModalAddProduct.addEventListener("click", function () {
-  modalAddProduct.classList.add('show')
-  console.log("OK")
-})
-formAddProduct.addEventListener("submit", async function (event) {
-  event.preventDefault();
+  modalAddProduct.classList.remove('hide');
+  modalAddProduct.classList.add('show');
+  content.classList.add('show');
+  console.log("Modal aberto");
+});
 
+// Envio do formulário
+formAddProduct.addEventListener("submit", async function (event) {
+  event.preventDefault(); // Impede a atualização da página
+  const submitButton = event.target.querySelector("button[type='submit']");
+  submitButton.disabled = true; // Desabilita o botão enquanto o envio está ocorrendo
+  
+  const nome = event.currentTarget.txtNomeProduto.value;
+  const marca = event.currentTarget.txtMarcaProduto.value
+  const tratamento = event.currentTarget.txtTratamento.value
+  const imagemFile = event.currentTarget.txtImagem.files[0];
+  
   const urlImageUpload = "http://localhost:3000/picture";
   const urlProductUpload = "http://localhost:3000/produtos";
   const formData = new FormData();
+  
+  // Verifique se o arquivo foi selecionado corretamente
+  if (imagemFile) {
+    formData.append("file", imagemFile);
 
-  // Adiciona o arquivo ao objeto FormData
-  formData.append("file", event.currentTarget.txtImagem.files[0]);
- // Verifique se o arquivo foi selecionado corretamente
+    try {
+      // Envia a imagem para o servidor
+      const imageResponse = await fetch(urlImageUpload, {
+        method: "POST",
+        body: formData, // Envia o FormData com o arquivo
+      });
 
-  try {
-    // Envia a imagem para o servidor
-    const imageResponse = await fetch(urlImageUpload, {
-      method: "POST",
-      body: formData, // Envia o FormData com o arquivo
-    });
+      if (!imageResponse.ok) {
+        throw new Error(`Erro ao enviar a imagem: ${imageResponse.status}`);
+      }
 
-    if (!imageResponse.ok) {
-      throw new Error(`Erro ao enviar a imagem: ${imageResponse.status}`);
+      const imageJson = await imageResponse.json();
+      console.log("Imagem enviada com sucesso:", imageJson);
+
+      // Envia os dados do produto para o servidor
+      const productData = {
+        nome: nome,
+        unidade_de_medida: "Metros",
+        imagem_Id: imageJson.id, // Use o ID retornado da imagem
+        marca: marca,
+        tratamento: tratamento,
+        valor: 123.12,
+      };
+
+      const productResponse = await fetch(urlProductUpload, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData), // Envia os dados como JSON
+      });
+
+      if (!productResponse.ok) {
+        throw new Error(`Erro ao enviar o produto: ${productResponse.status}`);
+      }
+
+      const productJson = await productResponse.json();
+      console.log("Produto enviado com sucesso:", productJson);
+
+      // Opcional: Fechar o modal após o envio
+      modalAddProduct.classList.remove('show');
+      content.classList.remove('show');
+      modalAddProduct.classList.add('hide');
+      console.log("Modal fechado após envio");
+
+      // Carregar novamente a lista de produtos
+      loadProducts();
+
+    } catch (error) {
+      console.error("Erro:", error.message);
     }
-
-    const imageJson = await imageResponse.json();
-    console.log("Imagem enviada com sucesso:", imageJson);
-
-    // Envia os dados do produto para o servidor
-    const productData = {
-      nome: "Testando",
-      unidade_de_medida: "Metros",
-      imagem_Id: imageJson.id, // Use o ID retornado da imagem
-      marca: "gg",
-      tratamento: "piscina",
-      valor: 123.12,
-    };
-
-    const productResponse = await fetch(urlProductUpload, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productData), // Envia os dados como JSON
-    });
-
-    if (!productResponse.ok) {
-      alert('Erro')
-      throw new Error(`Erro ao enviar o produto: ${productResponse.status}`);
-    }
-
-    const productJson = await productResponse.json();
-    console.log("Produto enviado com sucesso:", productJson);
-  } catch (error) {
-    console.error("Erro:", error.message);
+  } else {
+    console.log("Nenhuma imagem selecionada.");
   }
+
+  // Reabilita o botão ao final
+  submitButton.disabled = false;
 });
 
-
-console.info(divProducts)
-async function loadProdcuts() {
+// Função para carregar os produtos
+async function loadProducts() {
   const url = "http://localhost:3000/produtos";
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+      throw new Error(`Erro ao carregar os produtos: ${response.status}`);
     }
 
-    const json = await response.json();
-    console.log(json);
-    let produtos = json
-    produtos.forEach((produto, index) => {
-      let cardProduct = document.createElement('div')
-      cardProduct.innerHTML = `
-          <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-            <img src="../../API/${produto.imagem.file}" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-          </div>
-          <div class="mt-4 flex justify-between">
-            <div>
-              <h3 class="text-sm text-gray-700">
-                <a href="#">
-                  ${produto.nome}
-                </a>
-              </h3>
-              <p class="mt-1 text-sm text-gray-500">Black</p>
-            </div>
-            <p class="text-sm font-medium text-gray-900">$${produto.valor}</p>
-        </div>
-        `
-      divProducts.appendChild(cardProduct)
+    const produtos = await response.json();
+    console.log("Produtos carregados:", produtos);
 
+    divProducts.innerHTML = `<table class="table table-light table-hover table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="div-products-body">
+                    </tbody>
+                </table>`;
+
+    const divProductsBody = document.querySelector("#div-products-body");
+
+    produtos.forEach(produto => {
+      let cardProduct = document.createElement('tr');
+      cardProduct.innerHTML = `
+        <td class="produto-name">
+          <img class="imagem-product" src="../../API/${produto.imagem.file}" alt="Imagem do produto">
+        </td>
+        <td>${produto.nome}</td>
+        <td>${produto.quantidade}</td>
+        <td>${produto.marca}</td>
+        <td>${produto.id}</td>
+        <td>${produto.valor}</td>
+        <td>
+          <button class="btn btn-outline-warning" value="${produto.id}" id="button-update-product"><i class="bi bi-pencil-fill"></i></button>
+          <button class="btn btn-outline-danger" value="${produto.id}" id="button-delete-product"><i class="bi bi-trash3"></i></button>
+        </td>
+      `;
+
+      // Adiciona os eventos de exclusão dinamicamente
+      const buttonDeleteProduct = cardProduct.querySelector("#button-delete-product");
+      buttonDeleteProduct.addEventListener("click", async function () {
+        const productId = buttonDeleteProduct.value;
+        const url = `http://localhost:3000/produtos/${productId}`;
+
+        try {
+          const response = await fetch(url, {
+            method: "DELETE",
+          });
+
+          if (!response.ok) {
+            throw new Error(`Erro ao deletar o produto: ${response.status}`);
+          }
+
+          console.log("Produto deletado com sucesso");
+          loadProducts(); // Atualiza a lista de produtos após a exclusão
+        } catch (error) {
+          console.error("Erro ao deletar o produto:", error.message);
+        }
+      });
+
+      divProductsBody.appendChild(cardProduct);
     });
   } catch (error) {
-    console.error(error.message);
+    console.error("Erro ao carregar os produtos:", error.message);
   }
 }
-loadProdcuts()
+
+// Carregar os produtos assim que a página for carregada
+loadProducts();

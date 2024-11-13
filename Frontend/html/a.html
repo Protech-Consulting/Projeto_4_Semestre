@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crud</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilo geral */
+        body {
+            background-color: #ffffff;
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #fd9b1a;
+            padding: 20px;
+            width: 18%; 
+            position: fixed; 
+        }
+        .sidebar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar .logo span {
+            color: #ffffff;
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        .perfil img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .perfil h5 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .perfil p {
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+        .nav-link {
+            color: black;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+        }
+        .nav-link:hover {
+            background-color: #ffcc00;
+            color: black;
+        }
+        .nav-link i {
+            margin-right: 10px;
+        }
+        .product-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+        .buttons button {
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .procurar {
+            display: flex;
+            gap: 10px;
+            position: absolute;
+            right: 550px;
+            top: 23px;
+        }
+        .content {
+            margin-left: 19%; 
+            padding: 18px;
+        }
+        
+        .product-name {
+            display: flex;
+            align-items: center;
+            
+            
+        }
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            
+            
+           
+        }
+        .product-info span {
+            font-weight: bold;
+           
+            
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <div class="logo">
+                    <span>|</span> TELA ADMIN
+                </div>
+                <div class="perfil text-center">
+                    <img src="foto_minha.jpg" alt="Foto Perfil">
+                    <h5>Celo</h5>
+                    <p>Admin</p>
+                </div>
+
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="produtos.html"><i class="bi bi-bag"></i> Produtos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="estoque.html"><i class="bi bi-box"></i> Estoque</a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div class="col-md-9 content">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Produtos</h2>
+                    <!-- Campo de pesquisa -->
+                    <input type="text" id="searchProduto" class="form-control w-50 me-3" placeholder="Procurar produtos...">
+                    <button class="btn btn-warning" id="addProduto"><a class="nav-link" href="adicionar_produto.html"><i class="bi"></i>Adicionar Produto</a></button>
+                </div>
+
+                <!-- Tabela de produtos -->
+                <table class="table table-light table-hover table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Data Adicionado</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="produtoTable">
+                        <tr>
+                            <td class="produto-name">
+                                <img src="cloro.jpeg" alt="Product" class="product-image">
+                                <div class="product-info">
+                                    </div>
+                            </td>
+                            
+                            <td>Cloro</td>
+                            <td> 10</td>
+                            <td>Marca Cloro</td>
+                            <td>1234567305477760</td>
+                            <td>08/Dez/2021</td>
+                            <td>
+                                <button class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></button>
+                                <button class="btn btn-outline-warning"><i class="bi bi-trash3"></i></button>
+                            </td>
+                        </tr>
+                        <tr></tr>
+                            <td class="produto-name">
+                                <img src="cloro.jpeg" alt="Product" class="product-image">
+                                <div class="product-info">
+                                    </div>
+                            </td>
+                            
+                            <td>Cloro</td>
+                            <td>10</td>
+                            <td>Marca Cloro</td>
+                            <td>1234567305477760</td>
+                            <td>08/Dez/2021</td>
+                            <td>
+                                <button class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></button>
+                                <button class="btn btn-outline-warning"><i class="bi bi-trash3"></i></button>
+                            </td>
+                        </tr>
+                        <tr></tr>
+                            <td class="product-name">
+                                <img src="cloro.jpeg" alt="Product" class="product-image">
+                                <div class="product-info">
+                                    </div>
+                            </td>
+                            
+                            <td>Cloro</td>
+                            <td>10</td>
+                            <td>Marca Cloro</td>
+                            <td>1234567305477760</td>
+                            <td>08/Dez/2021</td>
+                            <td>
+                                <button class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></button>
+                                <button class="btn btn-outline-warning"><i class="bi bi-trash3"></i></button>
+                            </td>
+                        </tr>
+                        <tr> </tr>
+                            <td class="product-name">
+                                <img src="cloro.jpeg" alt="Product" class="product-image">
+                                <div class="product-info">
+                                    </div>
+                            </td>
+                            
+                            <td>Cloro</td>
+                            <td>10</td>
+                            <td>Marca Cloro</td>
+                            <td>1234567305477760</td>
+                            <td>08/Dez/2021</td>
+                            <td>
+                                <button class="btn btn-outline-warning"><i class="bi bi-pencil-fill"></i></button>
+                                <button class="btn btn-outline-warning"><i class="bi bi-trash3"></i></button>
+                            </td>
+                        </tr>
+                        <!-- Mais linhas de produtos podem ser adicionadas aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+</body>
+</html>
