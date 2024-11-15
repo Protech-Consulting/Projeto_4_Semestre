@@ -11,6 +11,7 @@ productRouter.post('/produtos', async (req, res) => {
             nome: req.body.nome,
             imagem_Id: req.body.imagem_Id,
             unidade_de_medida: req.body.unidade_de_medida,
+            metragem: req.body.metragem,
             marca: req.body.marca,
             tratamento: req.body.tratamento,
             valor: req.body.valor
@@ -27,6 +28,14 @@ productRouter.get('/produtos', async (req, res) => {
     })
     res.status(200).json(products)
 })
+productRouter.get('/produtos/:id',async(req,res)=>{
+    const products = await prisma.product.findUnique({
+        where:{
+            id: req.params.id
+        }
+    })
+    res.status(200).json(products)
+})
 //Atualizar Produtos
 productRouter.put('/produtos/:id', async (req, res) => {
     await prisma.product.update({
@@ -37,6 +46,7 @@ productRouter.put('/produtos/:id', async (req, res) => {
             nome: req.body.nome,
             foto: req.body.foto,
             unidade_de_medida: req.body.unidade_de_medida,
+            metragem: req.body.metragem,
             marca: req.body.marca,
             tratamento: req.body.tratamento,
             valor: req.body.valor

@@ -21,6 +21,7 @@ model Product {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
   nome    String
   unidade_de_medida String
+  metragem Float?
   marca   String
   tratamento String
   valor Float

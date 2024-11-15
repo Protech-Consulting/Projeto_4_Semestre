@@ -100,10 +100,10 @@ body {
 }
 
 img.imagem-product {
-    width: 50%;
+    width: 100%;
     max-width: 200px;
-    height: 5%;
-    max-height: 50px;
+    height: 100%;
+    max-height: 100px;
 }
 
 .product-info {
@@ -114,15 +114,38 @@ img.imagem-product {
 
 
 }
-
+button#close-modal {
+    float: right;
+}
+.modal-container{
+    height: 85%;
+    background-color: white;
+}
+button.btn.btn-primary.btn-modal-enviar{
+    background-color: #F28403;
+}
 .modal-add-product.show {
     width: 100%;
     height: 100%;
     position: absolute;
-    top: 10%;
+    top: 0%;
     inset-area: center;
+    background-color: #ffc10717;
+    align-content: center;
 }
 .modal-add-product.hide{
+    display: none;
+}
+.modal-update-product.show {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+    inset-area: center;
+    background-color: #ffc10717;
+    align-content: center;
+}
+.modal-update-product.hide{
     display: none;
 }
 .container.px-0.mx-0.principal.show{

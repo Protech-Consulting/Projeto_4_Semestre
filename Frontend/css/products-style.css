@@ -14,3 +14,16 @@
         display: block;
     }
 }
+.modal-update-product {
+    &.hide {
+        display: none;
+    }
+    &.show{
+        align-content: center;
+        background: #e1e1e1f2;
+        width: 100%;
+        position: fixed;
+        height: 100%;
+        display: block;
+    }
+}
