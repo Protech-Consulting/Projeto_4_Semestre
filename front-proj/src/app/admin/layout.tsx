@@ -14,7 +14,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       {/* Menu lateral */}
-      <aside style={{ width: '250px', background: '#F28403', padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <aside style={{ width: '250px', background: '#9F96D9', padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <h2 style={{ color: '#fff', marginBottom: '1rem' }}>Admin Menu</h2>
         <div className="rounded-full overflow-hidden w-32 h-32 mb-4">
           <img

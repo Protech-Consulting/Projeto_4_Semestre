@@ -27,7 +27,7 @@ export default function AdminPage() {
   console.log(produtos);
 
   return (
-    <main style={{ color: "black", padding: "1rem" }}>
+    <main style={{ color: "black", padding: "1rem"}}>
       <h1 className="text-[1.5rem] mb-4">Produtos</h1>
       <button className="px-2 py-1 bg-[#F28403] text-white rounded hover:bg-[#ff972f]" onClick={() => {
          setCurrentData(null);

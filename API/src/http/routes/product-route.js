@@ -1,6 +1,6 @@
-import express from 'express'
-import upload from '../../../config/mutter.js'
-import { PrismaClient } from '@prisma/client'
+import express from 'express';
+import upload from '../../../config/mutter.js'; // Import correto para ES Modules
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient()
 const productRouter = express.Router()
